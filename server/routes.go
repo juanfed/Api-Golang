@@ -1,8 +1,6 @@
 package server
 
-import (
-	"v1/controllers"
-)
+import "v1/controllers"
 
 // aca voy a iniciar las rutas del servidor
 func StartRoutes() {
@@ -10,4 +8,6 @@ func StartRoutes() {
 
 	//decalro la ruta y lo que se ejecutara cuando se ingrese a ella, siempre declaro las rutas antes de levantar el servidor
 	e.GET("/", controllers.GetHello)
+	// para decirle que me traiga los usuarios
+	e.POST("/user", controllers.GetUser)
 }
