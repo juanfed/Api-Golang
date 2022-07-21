@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"v1/models"
+	"v1/services"
 
 	"github.com/labstack/echo/v4"
 )
@@ -22,14 +23,15 @@ func GetUser(c echo.Context) error {
 	// instancio el error que me llega de Bind(&user), Bind en este caso me sirve para decir que debo de recibir una solicitud con los datos espesificados en el modelo de user
 	err := c.Bind(&user)
 
-	// imprimo el usuario en consola
+	// imprimo el usuario en consola para saber que todo se proceso
 	fmt.Println(user)
 
 	// compruebo de que no exista un error, en caso de que si lo capturo y lo muestro al usuario
 	if err != nil {
+		fmt.Println("Entro en el errro, es decir que hay un error")
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
 	// mostrare los usuarios, en caso de que no exista un error en la peticion
-	return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, services.SetUser(user))
 }
