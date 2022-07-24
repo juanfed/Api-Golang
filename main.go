@@ -1,9 +1,7 @@
 package main
 
-import (
-	"fmt"
-)
+import "v1/server"
 
 func main() {
-	fmt.Print("New Start")
+	server.Start()
 }
