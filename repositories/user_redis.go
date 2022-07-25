@@ -1,9 +1,9 @@
 package repositories
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
-	"time"
 	"v1/dal"
 	"v1/models"
 
@@ -21,7 +21,12 @@ func NewUserRedisRepositories() *UserRedisRepositories {
 }
 
 func (r *UserRedisRepositories) InsertUser(user models.User) error {
+	usuario := &user
+	usuario.Id = user.Id
+
+	userData, _ := json.Marshal(usuario)
+
 	fmt.Println("Dato que le llega al redis: ", user)
-	err := r.databaseRedis.Set(strconv.Itoa(user.Id), user, 12*time.Hour).Err()
+	err := r.databaseRedis.Set(strconv.Itoa(usuario.Id), userData, 0).Err()
 	return err
 }
