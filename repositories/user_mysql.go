@@ -10,16 +10,16 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type UserPostgresRepositories struct {
+type UserMysqlRepositories struct {
 	database *sql.DB
 }
 
-func NewUserPostgresRepositories() *UserPostgresRepositories {
-	return &UserPostgresRepositories{
+func NewUserMysqlRepositories() *UserMysqlRepositories {
+	return &UserMysqlRepositories{
 		database: dal.NewDatabaseSql(),
 	}
 }
-func (sq *UserPostgresRepositories) InsertUser(user models.User) error {
+func (sq *UserMysqlRepositories) InsertUser(user models.User) error {
 	_, err := sq.database.Exec(
 		fmt.Sprintf(
 			`insert into user (id, name, last_name) values(%d, "%s", "%s")`,

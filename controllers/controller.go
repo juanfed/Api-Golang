@@ -18,7 +18,7 @@ type controller struct {
 func NewController() *controller {
 	return &controller{
 		service: service.NewUserService(
-			repositories.NewUserPostgresRepositories(),
+			repositories.NewUserMysqlRepositories(),
 		),
 		serviceRedis: service.NewUserServiceRedis(
 			repositories.NewUserRedisRepositories(),
