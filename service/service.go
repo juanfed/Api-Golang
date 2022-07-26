@@ -10,9 +10,10 @@ type UserService struct {
 	redis *repositories.UserRedisRepositories
 }
 
-func NewUserService(mysql *repositories.UserMysqlRepositories) *UserService {
+func NewUserService(mysql *repositories.UserMysqlRepositories, redis *repositories.UserRedisRepositories) *UserService {
 	return &UserService{
 		mysql: mysql,
+		redis: redis,
 	}
 }
 func NewUserServiceRedis(redis *repositories.UserRedisRepositories) *UserService {
@@ -22,8 +23,9 @@ func NewUserServiceRedis(redis *repositories.UserRedisRepositories) *UserService
 }
 
 func (s *UserService) SetUser(user models.User) error {
-	return s.mysql.InsertUser(user)
-}
-func (r *UserService) SetUserRedis(user models.User) error {
-	return r.redis.InsertUser(user)
+	err := s.mysql.InsertUser(user)
+	if err != nil {
+		return err
+	}
+	return s.redis.InsertUser(user)
 }
