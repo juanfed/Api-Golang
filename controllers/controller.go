@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 	"v1/models"
 	"v1/repositories"
 	"v1/service"
@@ -31,4 +32,15 @@ func (ctr *controller) SetUser(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, ctr.service.SetUser(user))
+}
+func (ctr *controller) DeleteUser(c echo.Context) error {
+	str := c.Param("id")
+	// para convertir le dato que me llega como string en int y poder ser enviado a la funcion delete del service
+	id, err := strconv.Atoi(str)
+
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, ctr.service.DeleteUser(id))
 }

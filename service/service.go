@@ -29,3 +29,10 @@ func (s *UserService) SetUser(user models.User) error {
 	}
 	return s.redis.InsertUser(user)
 }
+func (s *UserService) DeleteUser(id int) error {
+	err := s.mysql.Delete(id)
+	if err != nil {
+		return err
+	}
+	return s.mysql.Delete(id)
+}

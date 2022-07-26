@@ -31,3 +31,12 @@ func (sq *UserMysqlRepositories) InsertUser(user models.User) error {
 
 	return err
 }
+func (sq *UserMysqlRepositories) Delete(id int) error {
+	_, err := sq.database.Exec(
+		fmt.Sprintf(
+			`delete from user where id='%d'`,
+			id,
+		),
+	)
+	return err
+}
