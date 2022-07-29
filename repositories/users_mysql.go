@@ -19,7 +19,7 @@ func NewUserMysqlRepositories() *UserMysqlRepositories {
 		database: dal.NewDatabaseSql(),
 	}
 }
-func (sq *UserMysqlRepositories) InsertUser(user models.User) error {
+func (sq *UserMysqlRepositories) Set(user models.User) error {
 	_, err := sq.database.Exec(
 		fmt.Sprintf(
 			`insert into user (id, name, last_name) values(%d, "%s", "%s")`,

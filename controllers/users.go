@@ -22,7 +22,7 @@ func NewController() *controller {
 		),
 	}
 }
-func (ctr *controller) SetUser(c echo.Context) error {
+func (ctr *controller) Set(c echo.Context) error {
 	user := models.User{}
 
 	err := c.Bind(&user)
@@ -31,9 +31,9 @@ func (ctr *controller) SetUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	return c.JSON(http.StatusOK, ctr.service.SetUser(user))
+	return c.JSON(http.StatusOK, ctr.service.Set(user))
 }
-func (ctr *controller) DeleteUser(c echo.Context) error {
+func (ctr *controller) Delete(c echo.Context) error {
 	str := c.Param("id")
 	// para convertir le dato que me llega como string en int y poder ser enviado a la funcion delete del service
 	id, err := strconv.Atoi(str)
@@ -42,5 +42,5 @@ func (ctr *controller) DeleteUser(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, ctr.service.DeleteUser(id))
+	return c.JSON(http.StatusOK, ctr.service.Delete(id))
 }

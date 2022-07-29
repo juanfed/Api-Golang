@@ -20,7 +20,7 @@ func NewUserRedisRepositories() *UserRedisRepositories {
 	}
 }
 
-func (r *UserRedisRepositories) InsertUser(user models.User) error {
+func (r *UserRedisRepositories) Set(user models.User) error {
 
 	value, err := json.Marshal(user)
 

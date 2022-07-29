@@ -22,14 +22,14 @@ func NewUserServiceRedis(redis *repositories.UserRedisRepositories) *UserService
 	}
 }
 
-func (s *UserService) SetUser(user models.User) error {
-	err := s.mysql.InsertUser(user)
+func (s *UserService) Set(user models.User) error {
+	err := s.mysql.Set(user)
 	if err != nil {
 		return err
 	}
-	return s.redis.InsertUser(user)
+	return s.redis.Set(user)
 }
-func (s *UserService) DeleteUser(id int) error {
+func (s *UserService) Delete(id int) error {
 	err := s.mysql.Delete(id)
 	if err != nil {
 		return err
