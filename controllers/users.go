@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"database/sql"
 	"net/http"
 	"strconv"
 	"v1/models"
@@ -10,30 +11,42 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type controller struct {
+type usercController struct {
 	service *service.UserService
 }
 
-func NewController() *controller {
-	return &controller{
+func NewController(mysql *sql.DB) *usercController {
+	return &usercController{
 		service: service.NewUserService(
-			repositories.NewUserMysqlRepositories(),
+			repositories.NewUserMysqlRepositories(mysql),
 			repositories.NewUserRedisRepositories(),
 		),
 	}
 }
-func (ctr *controller) Set(c echo.Context) error {
+
+func (ctr *usercController) Set(c echo.Context) error {
 	user := models.User{}
 
 	err := c.Bind(&user)
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
 	return c.JSON(http.StatusOK, ctr.service.Set(user))
 }
-func (ctr *controller) Delete(c echo.Context) error {
+
+func (ctr *usercController) Update(c echo.Context) error {
+	user := models.User{}
+
+	err := c.Bind(&user)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	return c.JSON(http.StatusOK, ctr.service.Update(user))
+}
+
+func (ctr *usercController) Delete(c echo.Context) error {
 	str := c.Param("id")
 	// para convertir le dato que me llega como string en int y poder ser enviado a la funcion delete del service
 	id, err := strconv.Atoi(str)

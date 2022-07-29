@@ -27,12 +27,25 @@ func (s *UserService) Set(user models.User) error {
 	if err != nil {
 		return err
 	}
+
 	return s.redis.Set(user)
 }
+
+// Cuando se hace un update en el postgres, se debe de borrar el dato en el redis para evitar problemas por condicion de carrera
+func (s *UserService) Update(user models.User) error {
+	err := s.mysql.Update(user)
+	if err != nil {
+		return err
+	}
+
+	return s.redis.Delete(user.Id)
+}
+
 func (s *UserService) Delete(id int) error {
 	err := s.mysql.Delete(id)
 	if err != nil {
 		return err
 	}
+
 	return s.mysql.Delete(id)
 }

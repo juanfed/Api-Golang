@@ -11,22 +11,24 @@ import (
 )
 
 type UserRedisRepositories struct {
-	databaseRedis *redis.Client
+	database *redis.Client
 }
 
 func NewUserRedisRepositories() *UserRedisRepositories {
 	return &UserRedisRepositories{
-		databaseRedis: dal.NewRedisClient(),
+		database: dal.NewRedisClient(),
 	}
 }
 
 func (r *UserRedisRepositories) Set(user models.User) error {
-
 	value, err := json.Marshal(user)
-
 	if err != nil {
 		return err
 	}
 
-	return r.databaseRedis.Set(fmt.Sprintf("user:%d", user.Id), value, 12*time.Hour).Err()
+	return r.database.Set(fmt.Sprintf("user:%d", user.Id), value, 12*time.Hour).Err()
+}
+
+func (r *UserRedisRepositories) Delete(id int) error {
+	return r.database.Del(fmt.Sprintf("user:%d", id)).Err()
 }

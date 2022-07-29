@@ -1,9 +1,14 @@
 package server
 
-import controller "v1/controllers"
+import (
+	controller "v1/controllers"
+	"v1/dal"
+)
 
 func StartRoutes() {
-	controller := controller.NewController()
-	e.POST("/NewUser", controller.Set)
-	e.DELETE("/deleteUser/", controller.Delete)
+	mysql := dal.NewDatabaseSql()
+	userController := controller.NewController(mysql)
+	e.POST("/user", userController.Set)
+	e.DELETE("/deleteUser/", userController.Delete)
+	e.PUT("/user", userController.Update)
 }
