@@ -75,3 +75,12 @@ func (ctr *usercController) Delete(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, ctr.service.Delete(id))
 }
+
+func (ctr *usercController) GetAll(c echo.Context) error {
+	err := ctr.service.GetAll()
+	if err != nil {
+		return err
+	}
+
+	return err
+}

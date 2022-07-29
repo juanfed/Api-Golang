@@ -80,3 +80,25 @@ func (sq *UserMysqlRepositories) Delete(id int) error {
 
 	return err
 }
+
+func (sq *UserMysqlRepositories) GetAll() error {
+	rows, err := sq.database.Query("select * from user")
+	if err != nil {
+		return err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var id int
+		var name string
+		var last_name string
+		err = rows.Scan(&id, &name, &last_name)
+		if err != nil {
+			return err
+		}
+		fmt.Println(id, name, last_name)
+	}
+
+	return rows.Err()
+}
