@@ -11,4 +11,8 @@ func StartRoutes() {
 	e.POST("/user", userController.Set)
 	e.DELETE("/deleteUser/", userController.Delete)
 	e.PUT("/user", userController.Update)
+	e.GET("/user/:id", userController.Get)
+
+	// make route of get user an get all users
+
 }

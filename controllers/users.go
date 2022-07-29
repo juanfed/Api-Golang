@@ -35,6 +35,24 @@ func (ctr *usercController) Set(c echo.Context) error {
 	return c.JSON(http.StatusOK, ctr.service.Set(user))
 }
 
+func (ctr *usercController) Get(c echo.Context) error {
+	str := c.Param("id")         // digo que ese es el parametro que espero
+	id, err := strconv.Atoi(str) // covierto ese parametro a un tipo de dato int
+	if err != nil {
+		return err
+	}
+
+	// mando a las fuciones siguientes el parametro de id
+	user, err := ctr.service.Get(id)
+	// si hubo un error lo retorno
+	if err != nil {
+		return err
+	}
+
+	// si no hubo error simplemente retorno el usuario
+	return c.JSON(http.StatusOK, user)
+}
+
 func (ctr *usercController) Update(c echo.Context) error {
 	user := models.User{}
 

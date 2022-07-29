@@ -31,6 +31,21 @@ func (s *UserService) Set(user models.User) error {
 	return s.redis.Set(user)
 }
 
+func (s *UserService) Get(id int) (models.User, error) {
+	// primero debo deconsiltar si esta ese dato en el redis y en caso de que no este debo de ir a consultar entonces en la base de datos que es mi fuente de verdad
+
+	// espacio para la consutaen el redis
+
+	user, err := s.mysql.Get(id)
+	if err != nil {
+		return models.User{}, err
+	}
+
+	// en caso de que me toca
+
+	return user, nil
+}
+
 // Cuando se hace un update en el postgres, se debe de borrar el dato en el redis para evitar problemas por condicion de carrera
 func (s *UserService) Update(user models.User) error {
 	err := s.mysql.Update(user)
