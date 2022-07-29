@@ -81,24 +81,24 @@ func (sq *UserMysqlRepositories) Delete(id int) error {
 	return err
 }
 
-func (sq *UserMysqlRepositories) GetAll() error {
+func (sq *UserMysqlRepositories) GetAll() ([]models.User, error) {
 	rows, err := sq.database.Query("select * from user")
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	defer rows.Close()
+	user := models.User{}
+	data := []models.User{}
 
 	for rows.Next() {
-		var id int
-		var name string
-		var last_name string
-		err = rows.Scan(&id, &name, &last_name)
+		err = rows.Scan(&user.Id, &user.Name, &user.LastName)
 		if err != nil {
-			return err
+			return nil, err
 		}
-		fmt.Println(id, name, last_name)
+		data = append(data, user)
 	}
+	fmt.Println(data)
 
-	return rows.Err()
+	return data, err
 }

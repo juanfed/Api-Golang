@@ -77,10 +77,10 @@ func (ctr *usercController) Delete(c echo.Context) error {
 }
 
 func (ctr *usercController) GetAll(c echo.Context) error {
-	err := ctr.service.GetAll()
+	value, err := ctr.service.GetAll()
 	if err != nil {
 		return err
 	}
 
-	return err
+	return c.JSON(http.StatusOK, value)
 }

@@ -65,6 +65,6 @@ func (s *UserService) Delete(id int) error {
 	return s.mysql.Delete(id)
 }
 
-func (s *UserService) GetAll() error {
+func (s *UserService) GetAll() ([]models.User, error) {
 	return s.mysql.GetAll()
 }
